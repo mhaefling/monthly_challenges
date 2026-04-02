@@ -29,10 +29,12 @@ def index(request):
     response_data = f"<ul>{list_items}</ul>"
     return HttpResponse(response_data)
 
-
 def monthly_challenge(request, month):
     try:
-        return HttpResponse(f"<h1>{monthly_challenges[month]}</h1>")
+        return HttpResponse(render(request,"challenges/challenge.html", {
+            "text": monthly_challenges[month],
+            "month": month.capitalize()
+        }))
     except:
         return HttpResponseNotFound("<h1>Invalid Month!</h1>")
 

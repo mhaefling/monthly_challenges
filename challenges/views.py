@@ -19,21 +19,17 @@ monthly_challenges = {
 }
 
 def index(request):
-    list_items = ""
     months = list(monthly_challenges.keys())
 
-    for month in months:
-        month_path = reverse("month-challenge", args=[month])
-        list_items += f"<li><a href=\"{month_path}\">{month}</a></li>"
-
-    response_data = f"<ul>{list_items}</ul>"
-    return HttpResponse(response_data)
+    return HttpResponse(render(request, "challenges/index.html", {
+        "month_list": months
+    }))
 
 def monthly_challenge(request, month):
     try:
         return HttpResponse(render(request,"challenges/challenge.html", {
             "text": monthly_challenges[month],
-            "month": month.capitalize()
+            "month": month
         }))
     except:
         return HttpResponseNotFound("<h1>Invalid Month!</h1>")
